@@ -17,14 +17,22 @@ namespace OTUS.work_with_database.Models.Repositories
 
         public async Task<Advertisement> GetAsync(long id)
         {
-            var sql = @"SELECT * FROM advertisements WHERE id = @id";
+            var sql = @"
+                SELECT
+                    id, name, description, price, user_id UserId, category_id CategoryId
+                FROM advertisements WHERE id = @id
+            ";
             var result = await Connection.QueryAsync<Advertisement>(sql, new { id });
             return result.Single();
         }
 
         public async Task<IReadOnlyList<Advertisement>> GetAsync()
         {
-            var sql = @"SELECT * FROM advertisements";
+            var sql = @"
+                SELECT 
+                    id, name, description, price, user_id UserId, category_id CategoryId
+                FROM advertisements
+            ";
             var result = await Connection.QueryAsync<Advertisement>(sql);
             return result.ToImmutableList();
         }
